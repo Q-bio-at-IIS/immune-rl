@@ -4,11 +4,11 @@ import os
 import sys
 import numpy as np
 import pandas as pd
-from collections import Counter
 from matplotlib import pyplot as plt
 
 sys.path.append("..")
 from lib.sim import Simulator
+from lib.utils import multinomial
 
 def extract_data(exp_id):
   input_path = os.path.join(EXP_DATA_DIR, exp_id, EXP_DATA_FILE)
@@ -19,12 +19,6 @@ def extract_data(exp_id):
 def plot_experiments(axis, population):
   print('-- Plot experiment')
   axis.loglog(sorted(population, reverse=True), color='#4C72B0')
-
-def multinomial(agent_n, total_num):
-  normed = agent_n / np.sum(agent_n)
-  samples = np.random.choice(len(normed), total_num, p=normed)
-  counts = Counter(samples)
-  return np.array(list(counts.values()))
 
 def plot_simulation(axis, agent_ns, total_population):
   print('-- Plot simulation')

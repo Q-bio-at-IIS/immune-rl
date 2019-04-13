@@ -90,7 +90,7 @@ if __name__ == "__main__":
   
   # Simulations
   CACHE_DIR = '/tmp/fig4'
-  N_SIM = 10
+  N_SIM = 100
   N_HIDDEN = 5000
   N_KEY_STATES = 30
   DIM_STATE = 100

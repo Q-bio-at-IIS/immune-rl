@@ -24,7 +24,7 @@ ax1.semilogy(epochs / 10**4, agent_ns, linewidth=0.1)
 ax1.set_ylim([1, 30])
 
 # Rank distribution を描画する
-for idx in range(1, 10):
+for idx in range(1, 100):
   print("Start {} th simulation".format(idx))
   agent_n, = simulator.simulate(
     monitors=["agent_n"],

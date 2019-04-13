@@ -22,7 +22,7 @@ class Simulator:
         n_hidden, learning_rate, start_beta, last_beta)
     exp_dir = os.path.join(self._cache_dir, exp_id)
     
-    if os.path.exists(exp_dir):
+    if self._cache_dir and os.path.exists(exp_dir):
       # すでに同じ実験を行なっていた場合にはそのデータをロードする
       epochs = np.load(os.path.join(exp_dir, "epochs.npy"))
       rewards = np.load(os.path.join(exp_dir, "rewards.npy"))
@@ -56,6 +56,7 @@ class Simulator:
       if monitor == "epochs": return_values.append(epochs)
       elif monitor == "rewards": return_values.append(rewards)
       elif monitor == "agent_ns": return_values.append(agent_ns)
+      elif monitor == "agent_n": return_values.append(agent_ns[-1])
       elif monitor == "agent_w": return_values.append(agent_w)
       elif monitor == "agent_u": return_values.append(agent_u)
       elif monitor == "key_states": return_values.append(key_states)

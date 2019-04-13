@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os
 import sys
 import numpy as np
-from tqdm import tqdm
 from matplotlib import ticker
 from matplotlib import pyplot as plt
 

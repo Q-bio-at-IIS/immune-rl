@@ -2,3 +2,6 @@
 __pycache__
 *.eps
 
+# fig4
+fig4/input/
+

@@ -16,14 +16,14 @@ class Simulator:
       n_key_states=30, dim_state=100, dim_action=20,
       n_hidden=5000, learning_rate=0.1, start_beta=1.0, last_beta=20):
     
-    # この実験のIDを取得する
+    # このシミュレーションのIDを取得する
     exp_id = self._experiment_id(record_per, max_epoch, seed,
         n_key_states, dim_state, dim_action,
         n_hidden, learning_rate, start_beta, last_beta)
     exp_dir = os.path.join(self._cache_dir, exp_id)
     
     if self._cache_dir and os.path.exists(exp_dir):
-      # すでに同じ実験を行なっていた場合にはそのデータをロードする
+      # すでに同じシミュレーションを行なっていた場合にはそのデータをロードする
       epochs = np.load(os.path.join(exp_dir, "epochs.npy"))
       rewards = np.load(os.path.join(exp_dir, "rewards.npy"))
       agent_ns = np.load(os.path.join(exp_dir, "agent_ns.npy"))
@@ -33,7 +33,7 @@ class Simulator:
       key_actions = np.load(os.path.join(exp_dir, "key_actions.npy"))
       
     else:
-      # まだ行なっていない場合には新たに実験を行う
+      # まだ行なっていない場合には新たにシミュレーションを行う
       (agent_w, agent_u, key_states, key_actions,
         epochs, rewards, agent_ns) = self._simulate(
           record_per, max_epoch, seed,

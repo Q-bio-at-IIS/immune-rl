@@ -13,7 +13,7 @@ class Simulator:
     self._cache_dir = cache_dir
 
   def simulate(self, monitors=[], record_per=1000, max_epoch=100000, seed=0,
-      n_key_states=30, dim_state=100, dim_action=20, mdp_type='SelfNonselfMDP',
+      n_key_states=30, dim_state=100, dim_action=20, mdp_type='BinaryMDP',
       n_hidden=5000, learning_rate=0.1, start_beta=1.0, last_beta=20):
     
     # このシミュレーションのIDを取得する

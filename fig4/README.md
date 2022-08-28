@@ -1,20 +1,10 @@
-fig2
+fig4
 ----
-Figure4の生成スクリプト。まずはこのレポジトリをcloneしてくる。
+Execute the following command in this directory
 ```
-$ git clone git@github.com:Q-bio-at-IIS/immune-rl.git
-$ cd immune-rl/fig4
-```
-次に実験データを取得する際に必要なライブラリをとってくる。Macbookの場合には
-```
+$ # Get public experimental data for comparison
 $ brew install sratoolkit
-```
-としてインストールできる。そして
-```
 $ sh prepare.sh
-```
-として実験データを取得することができる。最後に必要なpythonライブラリを導入したのちに
-```
+$ # Generate Fig4
 $ python main.py
 ```
-としてFigure4を生成することができる。Figure4は`immune-rl/fig4`以下に`fig4.eps`として生成される。

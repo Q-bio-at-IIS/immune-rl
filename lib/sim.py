@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import numpy as np
 from tqdm import tqdm
@@ -16,14 +15,14 @@ class Simulator:
       n_key_states=30, dim_state=100, dim_action=20, mdp_type='BinaryMDP',
       n_hidden=5000, learning_rate=0.1, start_beta=1.0, last_beta=20):
     
-    # このシミュレーションのIDを取得する
+    # Get the experiment ID
     exp_id = self._experiment_id(record_per, max_epoch, seed,
         n_key_states, dim_state, dim_action, mdp_type,
         n_hidden, learning_rate, start_beta, last_beta)
     exp_dir = os.path.join(self._cache_dir, exp_id)
     
     if self._cache_dir and os.path.exists(exp_dir):
-      # すでに同じシミュレーションを行なっていた場合にはそのデータをロードする
+      # If the exact same simulation was run before, get the result from cache
       epochs = np.load(os.path.join(exp_dir, "epochs.npy"))
       rewards = np.load(os.path.join(exp_dir, "rewards.npy"))
       agent_ns = np.load(os.path.join(exp_dir, "agent_ns.npy"))
@@ -33,13 +32,13 @@ class Simulator:
       key_actions = np.load(os.path.join(exp_dir, "key_actions.npy"))
       
     else:
-      # まだ行なっていない場合には新たにシミュレーションを行う
+      # If no cache were found, run new simulation
       (agent_w, agent_u, epochs, rewards, agent_ns) = self._simulate(
           record_per, max_epoch, seed,
           n_key_states, dim_state, dim_action, mdp_type,
           n_hidden, learning_rate, start_beta, last_beta)
       
-      # キャッシュとして保存しておく
+      # Save results as a cache
       os.makedirs(exp_dir)
       np.save(os.path.join(exp_dir, "epochs.npy"), epochs)
       np.save(os.path.join(exp_dir, "rewards.npy"), rewards)
@@ -47,7 +46,7 @@ class Simulator:
       np.save(os.path.join(exp_dir, "agent_w.npy"), agent_w)
       np.save(os.path.join(exp_dir, "agent_u.npy"), agent_u)
     
-    # monitorsにしたがって返す値を決める
+    # Return results following the `monitors` parameter
     return_values = list()
     for monitor in monitors:
       if monitor == "epochs": return_values.append(epochs)
@@ -62,10 +61,10 @@ class Simulator:
   def _simulate(self, record_per, max_epoch, seed,
       n_key_states, dim_state, dim_action, mdp_type,
       n_hidden, learning_rate, start_beta, last_beta):
-    # ランダムシードを固定
+    # Fix random seed
     np.random.seed(seed=seed)
     
-    # MDPを初期化
+    # Initialize MDP
     if mdp_type == 'BinaryMDP':
       mdp = BinaryMDP(n_key_states, dim_state, dim_action)
     elif mdp_type == 'SelfNonselfMDP':
@@ -73,15 +72,15 @@ class Simulator:
     else:
       raise ValueError("There is no mdp named {}".format(mdp_type))
     
-    # Agentを初期化
+    # Initialize Agent
     agent = Agent(n_hidden, dim_state, dim_action)
     
-    # 学習中の経過を記録するためのコンテナ用意
+    # Prepare storage to save histories
     epochs = np.empty(max_epoch // record_per)
     rewards = np.empty(max_epoch // record_per)
     agent_ns = np.empty((max_epoch // record_per, n_hidden))
     
-    # 学習
+    # Simulation
     state = mdp.initial_state()
     for epoch in tqdm(range(max_epoch)):
       beta = start_beta + (last_beta - start_beta) * epoch / max_epoch

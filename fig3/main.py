@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import sys
 import numpy as np
 from matplotlib import pyplot as plt
@@ -7,13 +5,13 @@ from matplotlib import pyplot as plt
 sys.path.append("..")
 from lib.sim import Simulator
 
-# 描画用の図を二つ用意する
+# Prepare canvas
 _, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, sharey=True)
 
-# Simulatorを用意する
+# Prepare simulator
 simulator = Simulator(cache_dir="/tmp/fig3")
 
-# 細胞数分布の時間発展を描画する
+# Run simulations
 print("Start 0 th simulation")
 epochs, agent_ns = simulator.simulate(
     monitors=["epochs", "agent_ns"],
@@ -23,7 +21,7 @@ epochs, agent_ns = simulator.simulate(
 ax1.semilogy(epochs / 10**4, agent_ns, linewidth=0.1)
 ax1.set_ylim([1, 30])
 
-# Rank distribution を描画する
+# Plot Rank distributions
 for idx in range(1, 100):
   print("Start {} th simulation".format(idx))
   agent_n, = simulator.simulate(
@@ -36,7 +34,7 @@ for idx in range(1, 100):
 ax2.loglog(sorted(agent_ns[-1], reverse=True), color='#4C72B0')
 ax2.set_ylim([1, 30])
 
-# プロットの整形
+# Format the figure
 ax1.spines["top"].set_visible(False)
 ax1.spines["right"].set_visible(False)
 ax1.spines["left"].set_visible(False)

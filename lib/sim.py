@@ -28,8 +28,8 @@ class Simulator:
       agent_ns = np.load(os.path.join(exp_dir, "agent_ns.npy"))
       agent_w = np.load(os.path.join(exp_dir, "agent_w.npy"))
       agent_u = np.load(os.path.join(exp_dir, "agent_u.npy"))
-      key_states = np.load(os.path.join(exp_dir, "key_states.npy"))
-      key_actions = np.load(os.path.join(exp_dir, "key_actions.npy"))
+      # key_states = np.load(os.path.join(exp_dir, "key_states.npy"))
+      # key_actions = np.load(os.path.join(exp_dir, "key_actions.npy"))
       
     else:
       # If no cache were found, run new simulation

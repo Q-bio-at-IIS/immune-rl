@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import sys
 import numpy as np
 from matplotlib import ticker
@@ -8,7 +6,7 @@ from matplotlib import pyplot as plt
 sys.path.append("..")
 from lib.sim import Simulator
 
-# シミュレーションを回す
+# Run simulations
 rewards_list = list()
 epochs_list = list()
 simulator = Simulator(cache_dir="/tmp/fig2")
@@ -22,7 +20,7 @@ for sim_idx in range(10):
   rewards_list.append(rewards)
 rewards = np.array(rewards_list)
 
-# プロットをする
+# Generate the figure
 fig = plt.figure()
 ax = fig.add_subplot(111)
 

@@ -1,6 +1,5 @@
-#!/bin/sh
-# Bergot et al. が公開しているデータのうちTeffに関するデータのみ取り出し、
-# それぞれのレパトワのデータをtsv形式で取り出すスクリプト
+#!/bin/bash
+# Extract Teff data from public dataset released by Bergot et al. in tsv format
 set -ex
 
 SRRS=(

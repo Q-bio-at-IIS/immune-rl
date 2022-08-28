@@ -1,20 +1,13 @@
-fig2
+fig4
 ----
-Figure4の生成スクリプト。まずはこのレポジトリをcloneしてくる。
+> This directory is not maintained.
+> prepare.sh must be updated to follow the updates of sratoolkit
+
+Execute the following command in this directory
 ```
-$ git clone git@github.com:Q-bio-at-IIS/immune-rl.git
-$ cd immune-rl/fig4
-```
-次に実験データを取得する際に必要なライブラリをとってくる。Macbookの場合には
-```
-$ brew install sratoolkit
-```
-としてインストールできる。そして
-```
+$ # Get public experimental data for comparison
+$ brew install sratoolkit # Only works on Mac
 $ sh prepare.sh
-```
-として実験データを取得することができる。最後に必要なpythonライブラリを導入したのちに
-```
+$ # Generate Fig4
 $ python main.py
 ```
-としてFigure4を生成することができる。Figure4は`immune-rl/fig4`以下に`fig4.eps`として生成される。

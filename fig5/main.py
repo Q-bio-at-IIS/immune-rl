@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import sys
 import seaborn as sns
 from matplotlib import pyplot as plt
@@ -8,7 +6,7 @@ sys.path.append("..")
 from lib.sim import Simulator
 from lib.utils import multinomial
 
-# パラメータを設定
+# Parameters
 CACHE_DIR = "/tmp/fig5"
 N_SAMP = 4000
 N_PATHOGENS = [3, 10, 30, 100, 300]
@@ -20,14 +18,14 @@ LEARNING_RATE = 0.1
 START_BETA = 1.0
 LAST_BETA = 20.0
 
-# 描画用のcanvasを用意
+# Parepare canvas
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
-# 描画用のpaletteを用意
+# Parepare palette
 palette = sns.color_palette("Blues", len(N_PATHOGENS))
 
-# シミュレーションを実行
+# Run simulations
 simulator = Simulator(CACHE_DIR)
 for idx, n_pathogen in enumerate(N_PATHOGENS):
   print("Start {} th simulation".format(idx))
@@ -40,7 +38,7 @@ for idx, n_pathogen in enumerate(N_PATHOGENS):
   nums = multinomial(agent_n, N_SAMP)
   ax.loglog(sorted(nums, reverse=True), label=str(n_pathogen), c=palette[idx])
 
-# 画像の整形
+# Format the figure
 ax.spines["top"].set_visible(False)
 ax.spines["right"].set_visible(False)
 ax.spines["left"].set_visible(False)

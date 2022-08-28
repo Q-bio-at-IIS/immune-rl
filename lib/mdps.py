@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import numpy as np
 from collections import namedtuple
@@ -7,7 +6,7 @@ from lib.utils import matching_score, samp
 
 # ----
 # FixedOptimalRewardMDP
-# 最大報酬の値が状態によらず定数であるようなMDPのインターフェイス
+# Interface of MDPs whose maximum reward is fixed for all states
 # ----
 class FixedOptimalRewardMDP(metaclass=ABCMeta):
   @abstractmethod
@@ -21,8 +20,7 @@ class FixedOptimalRewardMDP(metaclass=ABCMeta):
 
 # ----
 # BinaryMDP
-# 一つ前のステップでAgentが行なった行動が一番効きにくい状態に遷移するようなMDP
-# 免疫的には外敵が敵対的に状態を選択するような場合に当たる
+# A MDP with adversarial transition dynamics
 # ----
 class BinaryMDP(FixedOptimalRewardMDP):
     
@@ -62,12 +60,11 @@ class BinaryMDP(FixedOptimalRewardMDP):
 
 # ----
 # SelfNonselfMDP
-# 外敵が存在しない状態が一つあり、それを中心にして外敵が潜入しては殲滅されていくようなモデル
+# A MDP with multiple pathogenic states and one healthy state
 # ----
 
-# MDPの状態を示す構造体
-# is_pathogenic: 病原体に感染された状態にあるかどうかを示す真偽値
-# state_idx: どの病原体に感染されたかを示す値、感染されていなければnp.nan
+# is_pathogenic: indicates whether the current state is pathogenic or not
+# pathogen_idx: indicates which pathogen the host is infected
 State = namedtuple('State', ['is_pathogenic', 'pathogen_idx'])
 class SelfNonselfMDP(FixedOptimalRewardMDP):
 
@@ -93,32 +90,32 @@ class SelfNonselfMDP(FixedOptimalRewardMDP):
   
   def next_state(self, action):
     if self.cur_state.is_pathogenic:
-      # 病原体にすでに感染されている場合
+      # If already infected by a pathogen,
       
-      # actionに応じて病原体を排除できる確率が定まり
+      # action determines the probability of its elimination
+      actionに応じて病原体を排除できる確率が定まり
       effective_action = self.pathogenic_actions[self.cur_state.pathogen_idx, :]
       ham_dist = matching_score(effective_action, action)
       eliminate_prob = ham_dist / self.dim_action
       
       if np.random.rand() < eliminate_prob:
-        # もし病原体を排除できたら病原体のいない状態に戻り
+        # If effective, the state goes back to heathly state
         self.cur_state = State(False, np.nan)
         return self.nonpathogenic_state
         
       else:
-        # 排除できなかったらそのままの変化しない
+        # If not, the state stays the same
         return self.pathogenic_states[self.cur_state.pathogen_idx, :]
       
     else:
-      # 病原体にすでに感染されてはいない場合
+      # If not infected by a pathogen,
       
       if np.random.rand() < self.infection_rate:
-        # infection_rateで感染され
+        # infected by a pathogen in a fixed probability
         self.cur_state = State(True, np.random.choice(self.n_pathogen))
         return self.pathogenic_states[self.cur_state.pathogen_idx, :]
       
       else:
-        # 1-infection_rateで感染されない
         self.cur_state = State(False, np.nan)
         return self.nonpathogenic_state
   

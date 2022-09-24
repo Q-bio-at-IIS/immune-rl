@@ -93,7 +93,6 @@ class SelfNonselfMDP(FixedOptimalRewardMDP):
       # If already infected by a pathogen,
       
       # action determines the probability of its elimination
-      actionに応じて病原体を排除できる確率が定まり
       effective_action = self.pathogenic_actions[self.cur_state.pathogen_idx, :]
       ham_dist = matching_score(effective_action, action)
       eliminate_prob = ham_dist / self.dim_action
